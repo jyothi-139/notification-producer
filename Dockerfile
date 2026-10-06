@@ -1,5 +1,4 @@
-# Build Stage
-FROM golang:1.24 AS builder
+FROM golang:1.26.5 AS builder
 
 WORKDIR /app
 
@@ -8,17 +7,12 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o producer ./cmd/server/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o producer .
 
-# Runtime Stage
 FROM alpine:latest
 
 WORKDIR /app
 
 COPY --from=builder /app/producer .
-
-RUN apk add --no-cache ca-certificates
-
-EXPOSE 8080
 
 CMD ["./producer"]
