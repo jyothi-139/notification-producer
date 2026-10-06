@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o producer .
+RUN CGO_ENABLED=0 GOOS=linux go build -o producer ./cmd/producer
 
 FROM alpine:latest
 
