@@ -1,0 +1,27 @@
+name: Build and Push Producer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to ACR
+        run: |
+          docker login ${{ secrets.AZ_LOGIN_SERVER }} \
+          -u ${{ secrets.ACR_USERNAME }} \
+          -p ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build Image
+        run: |
+          docker build -t ${{ secrets.AZ_LOGIN_SERVER }}/notification-producer:v2 .
+
+      - name: Push Image
+        run: |
+          docker push ${{ secrets.AZ_LOGIN_SERVER }}/notification-producer:v2
