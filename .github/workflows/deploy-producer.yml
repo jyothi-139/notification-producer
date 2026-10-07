@@ -12,14 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: docker/login-action@v3
+      - name: Login to ACR
+        uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.ACR_LOGIN_SERVER }}
+          registry: notificationacr20261005.azurecr.io
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - uses: docker/build-push-action@v5
+      - name: Build and Push
+        uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/notification-producer:v3
+       
