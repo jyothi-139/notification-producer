@@ -21,14 +21,16 @@ func Publish(
 		(
 			channel,
 			recipient,
+			phone_number,
 			subject,
 			message,
 			status
 		)
-		VALUES ($1,$2,$3,$4,$5)
+		VALUES ($1,$2,$3,$4,$5,$6)
 	`,
 		n.Channel,
 		n.Recipient,
+		n.PhoneNumber,
 		n.Subject,
 		n.Message,
 		"PENDING",
