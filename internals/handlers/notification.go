@@ -34,14 +34,16 @@ func CreateNotification(db *sql.DB) gin.HandlerFunc {
 			(
 				channel,
 				recipient,
+				phone_number,
 				subject,
 				message,
 				status
 			)
-			VALUES ($1,$2,$3,$4,$5)
+			VALUES ($1,$2,$3,$4,$5,$6)
 		`,
 			notification.Channel,
 			notification.Recipient,
+			notification.PhoneNumber,
 			notification.Subject,
 			notification.Message,
 			"PENDING",
