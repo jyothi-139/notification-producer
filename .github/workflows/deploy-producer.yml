@@ -1,4 +1,4 @@
-name: Build and Push Producer
+name: Build Producer
 
 on:
   push:
@@ -12,16 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Login to ACR
-        run: |
-          docker login ${{ secrets.AZ_LOGIN_SERVER }} \
-          -u ${{ secrets.ACR_USERNAME }} \
-          -p ${{ secrets.ACR_PASSWORD }}
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build Image
-        run: |
-          docker build -t ${{ secrets.AZ_LOGIN_SERVER }}/notification-producer:v2 .
-
-      - name: Push Image
-        run: |
-          docker push ${{ secrets.AZ_LOGIN_SERVER }}/notification-producer:v2
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/notification-producer:v3
